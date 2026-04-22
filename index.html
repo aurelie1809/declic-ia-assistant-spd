@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Déclic IA — Assistant SPD</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --or: #C9A84C;
+    --or-clair: #F5E6C0;
+    --or-pale: #FFFAF0;
+    --marine: #1A2744;
+    --marine-clair: #253660;
+    --blanc: #FFFFFF;
+    --gris-clair: #F7F6F3;
+    --gris-moyen: #E8E5DF;
+    --texte: #1A1A1A;
+    --texte-doux: #5A5A5A;
+    --rouge: #C0392B;
+    --vert: #27AE60;
+    --ombre: 0 4px 24px rgba(26,39,68,0.10);
+    --ombre-forte: 0 8px 40px rgba(26,39,68,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gris-clair);
+    color: var(--texte);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--marine);
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--ombre);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--blanc); letter-spacing: 0.5px; }
+  .logo-text span { color: var(--or); }
+  .logo-sub { font-size: 11px; color: #8899BB; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+  .header-badge {
+    background: var(--or);
+    color: var(--marine);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  main { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ── ÉTAPES ── */
+  .etapes-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 36px;
+    background: var(--blanc);
+    border-radius: 12px;
+    padding: 16px 24px;
+    box-shadow: var(--ombre);
+  }
+  .etape-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+  }
+  .etape-item.active { opacity: 1; }
+  .etape-item.done { opacity: 0.7; }
+  .etape-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--gris-moyen);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--texte-doux);
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .etape-item.active .etape-num { background: var(--or); color: var(--marine); }
+  .etape-item.done .etape-num { background: var(--vert); color: white; }
+  .etape-label { font-size: 12px; font-weight: 500; color: var(--texte-doux); }
+  .etape-item.active .etape-label { color: var(--marine); font-weight: 600; }
+  .etape-sep { width: 24px; height: 1px; background: var(--gris-moyen); flex-shrink: 0; }
+
+  /* ── CARTE ── */
+  .carte {
+    background: var(--blanc);
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: var(--ombre);
+    margin-bottom: 20px;
+  }
+  .carte-titre {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--marine);
+    margin-bottom: 6px;
+  }
+  .carte-sous-titre {
+    font-size: 14px;
+    color: var(--texte-doux);
+    margin-bottom: 28px;
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 8px;
+  }
+
+  /* ── GRILLE OPTIONS ── */
+  .options-grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .option-btn {
+    padding: 14px 16px;
+    border: 2px solid var(--gris-moyen);
+    border-radius: 10px;
+    background: var(--blanc);
+    cursor: pointer;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texte);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.3;
+  }
+  .option-btn:hover { border-color: var(--or); background: var(--or-pale); }
+  .option-btn.selected { border-color: var(--marine); background: var(--marine); color: var(--blanc); }
+  .option-btn .opt-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* ── CHAMPS ── */
+  .champ-groupe { margin-bottom: 20px; }
+  .champ-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--marine);
+    margin-bottom: 8px;
+  }
+  .champ-input, .champ-textarea, .champ-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--gris-moyen);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--texte);
+    background: var(--blanc);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .champ-input:focus, .champ-textarea:focus, .champ-select:focus { border-color: var(--or); }
+  .champ-textarea { min-height: 80px; resize: vertical; }
+  .champs-ligne { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ── BOUTONS ── */
+  .btn-primaire {
+    background: var(--or);
+    color: var(--marine);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primaire:hover { background: #B8932A; transform: translateY(-1px); box-shadow: var(--ombre); }
+  .btn-secondaire {
+    background: transparent;
+    color: var(--texte-doux);
+    border: 2px solid var(--gris-moyen);
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondaire:hover { border-color: var(--marine); color: var(--marine); }
+  .btn-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 28px; flex-wrap: wrap; }
+
+  /* ── RÉCAPITULATIF ── */
+  .recap-grille {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .recap-item {
+    background: var(--gris-clair);
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .recap-key { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--texte-doux); margin-bottom: 4px; }
+  .recap-val { font-size: 14px; font-weight: 500; color: var(--marine); }
+
+  /* ── DOCUMENTS ── */
+  .docs-grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .doc-carte {
+    border: 2px solid var(--gris-moyen);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--blanc);
+  }
+  .doc-carte:hover { border-color: var(--or); box-shadow: var(--ombre); }
+  .doc-carte.selected { border-color: var(--marine); background: var(--marine); }
+  .doc-carte.selected .doc-titre { color: var(--blanc); }
+  .doc-carte.selected .doc-desc { color: #8899BB; }
+  .doc-icon { font-size: 28px; margin-bottom: 10px; }
+  .doc-titre { font-size: 14px; font-weight: 600; color: var(--marine); margin-bottom: 4px; }
+  .doc-desc { font-size: 12px; color: var(--texte-doux); line-height: 1.4; }
+
+  /* ── RÉSULTAT ── */
+  #zone-resultat {
+    background: var(--blanc);
+    border-radius: 16px;
+    box-shadow: var(--ombre);
+    overflow: hidden;
+    display: none;
+  }
+  .resultat-header {
+    background: var(--marine);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .resultat-titre { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--blanc); font-weight: 600; }
+  .resultat-meta { font-size: 12px; color: #8899BB; margin-top: 2px; }
+  .resultat-actions { display: flex; gap: 10px; }
+  .btn-copier, .btn-imprimer {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-copier { background: var(--or); color: var(--marine); }
+  .btn-imprimer { background: transparent; color: var(--or); border: 1px solid var(--or); }
+  .btn-copier:hover, .btn-imprimer:hover { opacity: 0.85; }
+  #contenu-resultat {
+    padding: 32px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--texte);
+  }
+  #contenu-resultat h1, #contenu-resultat h2 { font-family: 'Cormorant Garamond', serif; color: var(--marine); margin: 24px 0 12px; }
+  #contenu-resultat h1 { font-size: 26px; border-bottom: 2px solid var(--or-clair); padding-bottom: 8px; }
+  #contenu-resultat h2 { font-size: 20px; }
+  #contenu-resultat h3 { font-size: 16px; color: var(--marine-clair); margin: 16px 0 8px; font-weight: 600; }
+  #contenu-resultat p { margin-bottom: 10px; }
+  #contenu-resultat ul, #contenu-resultat ol { margin: 8px 0 12px 20px; }
+  #contenu-resultat li { margin-bottom: 4px; }
+  #contenu-resultat strong { color: var(--marine); }
+  #contenu-resultat table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  #contenu-resultat th {
+    background: var(--marine);
+    color: var(--blanc);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  #contenu-resultat td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--gris-moyen);
+    vertical-align: top;
+  }
+  #contenu-resultat tr:nth-child(even) td { background: var(--or-pale); }
+
+  /* ── LOADER ── */
+  .loader-zone {
+    text-align: center;
+    padding: 60px 20px;
+    display: none;
+  }
+  .loader-spinner {
+    width: 48px; height: 48px;
+    border: 3px solid var(--or-clair);
+    border-top-color: var(--or);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-texte { font-size: 15px; color: var(--texte-doux); }
+  .loader-sous { font-size: 12px; color: #AAA; margin-top: 6px; }
+
+  /* ── ERREUR ── */
+  .alerte-erreur {
+    background: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    border-radius: 10px;
+    padding: 16px 20px;
+    color: var(--rouge);
+    font-size: 14px;
+    margin-top: 16px;
+    display: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: #AAA;
+    border-top: 1px solid var(--gris-moyen);
+    margin-top: 40px;
+  }
+  footer a { color: var(--or); text-decoration: none; }
+
+  /* ── PRINT ── */
+  @media print {
+    @page { size: landscape; margin: 15mm; }
+    header, .etapes-bar, .btn-actions, .resultat-actions, footer { display: none !important; }
+    #zone-resultat { box-shadow: none; display: block !important; }
+    #contenu-resultat { padding: 0; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    main { padding: 20px 12px 60px; }
+    .carte { padding: 24px 20px; }
+    .champs-ligne { grid-template-columns: 1fr; }
+    .recap-grille { grid-template-columns: 1fr; }
+    .etapes-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div>
+      <div class="logo-text">Déclic <span>IA</span></div>
+      <div class="logo-sub">Assistant SPD Pro</div>
+    </div>
+  </div>
+  <div class="header-badge">Aurélie Maunie</div>
+</header>
+
+<main>
+
+  <!-- BARRE ÉTAPES -->
+  <div class="etapes-bar" id="etapes-bar">
+    <div class="etape-item active" id="etape-1">
+      <div class="etape-num">1</div>
+      <div class="etape-label">Contexte</div>
+    </div>
+    <div class="etape-sep"></div>
+    <div class="etape-item" id="etape-2">
+      <div class="etape-num">2</div>
+      <div class="etape-label">Public</div>
+    </div>
+    <div class="etape-sep"></div>
+    <div class="etape-item" id="etape-3">
+      <div class="etape-num">3</div>
+      <div class="etape-label">Modalités</div>
+    </div>
+    <div class="etape-sep"></div>
+    <div class="etape-item" id="etape-4">
+      <div class="etape-num">4</div>
+      <div class="etape-label">Document</div>
+    </div>
+    <div class="etape-sep"></div>
+    <div class="etape-item" id="etape-5">
+      <div class="etape-num">5</div>
+      <div class="etape-label">Résultat</div>
+    </div>
+  </div>
+
+  <!-- ═══ ÉTAPE 1 — CONTEXTE ═══ -->
+  <div id="page-1" class="carte">
+    <div class="section-label">Étape 1 sur 4</div>
+    <div class="carte-titre">Contexte de la formation</div>
+    <div class="carte-sous-titre">Ces informations apparaîtront dans tous vos documents générés.</div>
+
+    <div class="champs-ligne">
+      <div class="champ-groupe">
+        <label class="champ-label">Nom du formateur / organisme</label>
+        <input class="champ-input" id="formateur" type="text" placeholder="ex : Aurélie Maunie — Déclic IA">
+      </div>
+      <div class="champ-groupe">
+        <label class="champ-label">Intitulé de la formation</label>
+        <input class="champ-input" id="intitule" type="text" placeholder="ex : Découverte de l'IA pour les PME">
+      </div>
+    </div>
+
+    <div class="champ-groupe">
+      <label class="champ-label">Objectif opérationnel principal</label>
+      <input class="champ-input" id="objectif" type="text" placeholder="Ce que les participants savent faire seuls à l'issue (ex : rédiger un prompt efficace)">
+    </div>
+
+    <div class="champ-groupe">
+      <label class="champ-label">Contexte / Besoin spécifique <span style="font-weight:400;color:#AAA">(optionnel)</span></label>
+      <textarea class="champ-textarea" id="contexte" placeholder="Décrivez le contexte, les contraintes particulières, les attentes du commanditaire..."></textarea>
+    </div>
+
+    <div class="champs-ligne">
+      <div class="champ-groupe">
+        <label class="champ-label">Qualiopi</label>
+        <select class="champ-select" id="qualiopi">
+          <option value="non">Non certifié Qualiopi</option>
+          <option value="oui">Certifié Qualiopi</option>
+        </select>
+      </div>
+      <div class="champ-groupe">
+        <label class="champ-label">TVA</label>
+        <select class="champ-select" id="tva">
+          <option value="non">Non soumis à TVA — Art. 293 B</option>
+          <option value="oui">Soumis à TVA</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-actions">
+      <button class="btn-primaire" onclick="allerPage(2)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- ═══ ÉTAPE 2 — PUBLIC ═══ -->
+  <div id="page-2" class="carte" style="display:none">
+    <div class="section-label">Étape 2 sur 4</div>
+    <div class="carte-titre">Votre public</div>
+    <div class="carte-sous-titre">Le SPD sera entièrement adapté au profil des participants.</div>
+
+    <div class="section-label">À qui s'adresse cette formation ?</div>
+    <div class="options-grille" id="opt-public">
+      <button class="option-btn" data-val="Particulier / Grand public" onclick="selectionner(this,'opt-public')"><span class="opt-icon">👤</span>Particulier / Grand public</button>
+      <button class="option-btn" data-val="Professionnel en activité" onclick="selectionner(this,'opt-public')"><span class="opt-icon">💼</span>Professionnel en activité</button>
+      <button class="option-btn" data-val="Équipe en entreprise" onclick="selectionner(this,'opt-public')"><span class="opt-icon">🏢</span>Équipe en entreprise</button>
+      <button class="option-btn" data-val="Demandeur d'emploi / Reconversion" onclick="selectionner(this,'opt-public')"><span class="opt-icon">🎓</span>Demandeur d'emploi / Reconversion</button>
+      <button class="option-btn" data-val="Public senior (50+)" onclick="selectionner(this,'opt-public')"><span class="opt-icon">🧓</span>Public senior (50+)</button>
+      <button class="option-btn" data-val="Association / Bénévoles" onclick="selectionner(this,'opt-public')"><span class="opt-icon">🌱</span>Association / Bénévoles</button>
+      <button class="option-btn" data-val="École / Université" onclick="selectionner(this,'opt-public')"><span class="opt-icon">🏫</span>École / Université</button>
+    </div>
+
+    <div class="section-label" style="margin-top:20px">Secteur / Métier</div>
+    <input class="champ-input" id="secteur" type="text" placeholder="ex : commerce, santé, enseignement, artisanat..." style="margin-bottom:20px">
+
+    <div class="section-label">Quel est leur niveau avec le numérique et l'IA ?</div>
+    <div class="options-grille" id="opt-niveau">
+      <button class="option-btn" data-val="Zéro — jamais touché à l'IA" onclick="selectionner(this,'opt-niveau')"><span class="opt-icon">🌱</span>Zéro — jamais touché à l'IA</button>
+      <button class="option-btn" data-val="Curieux — a entendu parler de ChatGPT" onclick="selectionner(this,'opt-niveau')"><span class="opt-icon">🔍</span>Curieux — a entendu parler de ChatGPT</button>
+      <button class="option-btn" data-val="A déjà testé un outil IA, sans méthode" onclick="selectionner(this,'opt-niveau')"><span class="opt-icon">⚙️</span>A déjà testé un outil IA, sans méthode</button>
+      <button class="option-btn" data-val="Utilise l'IA mais veut progresser" onclick="selectionner(this,'opt-niveau')"><span class="opt-icon">🚀</span>Utilise l'IA mais veut progresser</button>
+      <button class="option-btn" data-val="Hétérogène — niveaux très différents" onclick="selectionner(this,'opt-niveau')"><span class="opt-icon">❓</span>Hétérogène — niveaux très différents</button>
+      <button class="option-btn" data-val="Apprendre en s'amusant" onclick="selectionner(this,'opt-niveau')"><span class="opt-icon">🎮</span>Apprendre en s'amusant</button>
+      <button class="option-btn" data-val="Savoir utiliser un assistant IA" onclick="selectionner(this,'opt-niveau')"><span class="opt-icon">🤖</span>Savoir utiliser un assistant IA</button>
+    </div>
+
+    <div class="champs-ligne" style="margin-top:20px">
+      <div class="champ-groupe">
+        <label class="champ-label">Taille du groupe</label>
+        <select class="champ-select" id="groupe">
+          <option>1 personne (individuel)</option>
+          <option>2 à 5 personnes</option>
+          <option>6 à 10 personnes</option>
+          <option>11 à 15 personnes</option>
+          <option>16 à 20 personnes</option>
+          <option>Plus de 20 personnes</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-actions">
+      <button class="btn-secondaire" onclick="allerPage(1)">← Retour</button>
+      <button class="btn-primaire" onclick="allerPage(3)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- ═══ ÉTAPE 3 — MODALITÉS ═══ -->
+  <div id="page-3" class="carte" style="display:none">
+    <div class="section-label">Étape 3 sur 4</div>
+    <div class="carte-titre">Modalités pédagogiques</div>
+
+    <div class="section-label">Quel format de formation est prévu ?</div>
+    <div class="options-grille" id="opt-format">
+      <button class="option-btn" data-val="Présentiel — chez un hôte ou salle" onclick="selectionner(this,'opt-format')"><span class="opt-icon">🏠</span>Présentiel — chez un hôte ou salle</button>
+      <button class="option-btn" data-val="Visio — à distance" onclick="selectionner(this,'opt-format')"><span class="opt-icon">💻</span>Visio — à distance</button>
+      <button class="option-btn" data-val="Hybride — mix présentiel + visio" onclick="selectionner(this,'opt-format')"><span class="opt-icon">🔄</span>Hybride — mix présentiel + visio</button>
+      <button class="option-btn" data-val="Salle de classe" onclick="selectionner(this,'opt-format')"><span class="opt-icon">🏫</span>Salle de classe</button>
+    </div>
+
+    <div class="section-label" style="margin-top:20px">Quelle est la durée prévue ?</div>
+    <div class="options-grille" id="opt-duree">
+      <button class="option-btn" data-val="90" onclick="selectionner(this,'opt-duree')"><span class="opt-icon">⏱️</span>1h30 — Déclic Focus (90 min)</button>
+      <button class="option-btn" data-val="120" onclick="selectionner(this,'opt-duree')"><span class="opt-icon">⏰</span>2h — Offre 1:1 (120 min)</button>
+      <button class="option-btn" data-val="180" onclick="selectionner(this,'opt-duree')"><span class="opt-icon">🕐</span>3h — Atelier collectif (180 min)</button>
+      <button class="option-btn" data-val="plusieurs" onclick="selectionner(this,'opt-duree')"><span class="opt-icon">📅</span>Plusieurs séances</button>
+    </div>
+
+    <div id="bloc-seances" style="display:none;margin-top:16px">
+      <label class="champ-label">Précisez le nombre et la durée des séances</label>
+      <input class="champ-input" id="seances-detail" placeholder="ex : 4 séances de 90 min">
+    </div>
+
+    <div class="section-label" style="margin-top:20px">Quel est le besoin principal ?</div>
+    <div class="options-grille" id="opt-besoin">
+      <button class="option-btn" data-val="Découvrir l'IA (sensibilisation)" onclick="selectionner(this,'opt-besoin')"><span class="opt-icon">💡</span>Découvrir l'IA</button>
+      <button class="option-btn" data-val="Utiliser l'IA au quotidien" onclick="selectionner(this,'opt-besoin')"><span class="opt-icon">⚡</span>Utiliser l'IA au quotidien</button>
+      <button class="option-btn" data-val="Créer du contenu avec l'IA" onclick="selectionner(this,'opt-besoin')"><span class="opt-icon">✍️</span>Créer du contenu avec l'IA</button>
+      <button class="option-btn" data-val="Créer son propre assistant IA" onclick="selectionner(this,'opt-besoin')"><span class="opt-icon">🤖</span>Créer son propre assistant IA</button>
+      <button class="option-btn" data-val="IA et éthique / esprit critique" onclick="selectionner(this,'opt-besoin')"><span class="opt-icon">🧠</span>IA et éthique</button>
+      <button class="option-btn" data-val="IA pour la productivité professionnelle" onclick="selectionner(this,'opt-besoin')"><span class="opt-icon">📈</span>IA et productivité</button>
+    </div>
+
+    <div class="champ-groupe" style="margin-top:16px">
+      <label class="champ-label">Contraintes particulières <span style="font-weight:400;color:#AAA">(optionnel)</span></label>
+      <input class="champ-input" id="contraintes" placeholder="ex : pas de connexion internet, matériel limité, accessibilité...">
+    </div>
+
+    <div class="btn-actions">
+      <button class="btn-secondaire" onclick="allerPage(2)">← Retour</button>
+      <button class="btn-primaire" onclick="allerPage(4)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- ═══ ÉTAPE 4 — CHOIX DOCUMENT ═══ -->
+  <div id="page-4" class="carte" style="display:none">
+    <div class="section-label">Étape 4 sur 4</div>
+    <div class="carte-titre">Choisissez votre document</div>
+    <div class="carte-sous-titre">Sélectionnez le document à générer selon vos besoins.</div>
+
+    <div class="docs-grille">
+      <div class="doc-carte" id="doc-spd" onclick="selDoc('spd')">
+        <div class="doc-icon">📋</div>
+        <div class="doc-titre">SPD Complet</div>
+        <div class="doc-desc">Scénario Pédagogique Détaillé — tableau minute par minute, 8 colonnes, durées exactes</div>
+      </div>
+      <div class="doc-carte" id="doc-plan" onclick="selDoc('plan')">
+        <div class="doc-icon">🗂️</div>
+        <div class="doc-titre">Plan de Formation</div>
+        <div class="doc-desc">Méthode ADDIE, objectifs Bloom par niveau, savoir / savoir-faire / savoir-être</div>
+      </div>
+      <div class="doc-carte" id="doc-guide" onclick="selDoc('guide')">
+        <div class="doc-icon">📅</div>
+        <div class="doc-titre">Guide Jour J</div>
+        <div class="doc-desc">Horodatage précis, rôle du formateur, rôle des apprenants, points de vigilance</div>
+      </div>
+      <div class="doc-carte" id="doc-quiz" onclick="selDoc('quiz')">
+        <div class="doc-icon">🧩</div>
+        <div class="doc-titre">Quiz Bloom</div>
+        <div class="doc-desc">Évaluation formative — flashcards, études de cas, reformulation, création (pas de QCM basiques)</div>
+      </div>
+      <div class="doc-carte" id="doc-kirk" onclick="selDoc('kirk')">
+        <div class="doc-icon">📊</div>
+        <div class="doc-titre">Kirkpatrick 4 niveaux</div>
+        <div class="doc-desc">Questionnaire N1 satisfaction + grille N2 apprentissage + transfert N3 + KPI N4 résultats</div>
+      </div>
+      <div class="doc-carte" id="doc-froid" onclick="selDoc('froid')">
+        <div class="doc-icon">📬</div>
+        <div class="doc-titre">Questionnaire à froid</div>
+        <div class="doc-desc">Envoi 4 à 8 semaines après — mesure du transfert terrain et des changements de pratique</div>
+      </div>
+    </div>
+
+    <!-- RÉCAP -->
+    <div style="background:var(--gris-clair);border-radius:12px;padding:20px;margin-bottom:20px">
+      <div class="section-label">Récapitulatif</div>
+      <div class="recap-grille" id="recap-zone"></div>
+    </div>
+
+    <div class="alerte-erreur" id="erreur-zone"></div>
+    <div class="loader-zone" id="loader-zone">
+      <div class="loader-spinner"></div>
+      <div class="loader-texte">Génération en cours…</div>
+      <div class="loader-sous">Aurélie construit votre document sur mesure. 20 à 40 secondes.</div>
+    </div>
+
+    <div class="btn-actions">
+      <button class="btn-secondaire" onclick="allerPage(3)">← Retour</button>
+      <button class="btn-primaire" id="btn-generer" onclick="generer()">✨ Générer le document</button>
+    </div>
+  </div>
+
+  <!-- ═══ RÉSULTAT ═══ -->
+  <div id="zone-resultat">
+    <div class="resultat-header">
+      <div>
+        <div class="resultat-titre" id="resultat-titre">Document généré</div>
+        <div class="resultat-meta" id="resultat-meta"></div>
+      </div>
+      <div class="resultat-actions">
+        <button class="btn-imprimer" onclick="window.print()">🖨️ Imprimer / PDF</button>
+        <button class="btn-copier" onclick="copierResultat()">📋 Copier</button>
+      </div>
+    </div>
+    <div id="contenu-resultat"></div>
+    <div style="padding:20px 32px;border-top:1px solid var(--gris-moyen);display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn-secondaire" onclick="allerPage(4)">← Modifier</button>
+      <button class="btn-primaire" onclick="nouveau()">✨ Nouveau document</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Déclic IA • Aurélie Maunie • <a href="mailto:ludomaia41400@gmail.com">ludomaia41400@gmail.com</a><br>
+  TVA non applicable, art. 293 B du CGI • Non certifié Qualiopi
+</footer>
+
+<script>
+const API_KEY = "VOTRE_CLE_API_ICI  ";
+const API_URL = "https://api.anthropic.com/v1/messages";
+
+// ── État global ──
+const F = {
+  formateur:'', intitule:'', objectif:'', contexte:'',
+  qualiopi:'non', tva:'non',
+  public:'', secteur:'', niveau:'', groupe:'6 à 10 personnes',
+  format:'', duree:'', seances:'', besoin:'', contraintes:'',
+  doc: ''
+};
+
+let pageActuelle = 1;
+
+// ── Navigation ──
+function allerPage(n) {
+  document.getElementById('page-'+pageActuelle).style.display = 'none';
+  document.getElementById('page-'+n).style.display = 'block';
+  pageActuelle = n;
+  majEtapes(n);
+  if(n===4) majRecap();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function majEtapes(n) {
+  for(let i=1;i<=5;i++){
+    const el = document.getElementById('etape-'+i);
+    if(!el) continue;
+    el.className = 'etape-item';
+    if(i<n) el.classList.add('done');
+    else if(i===n) el.classList.add('active');
+    const num = el.querySelector('.etape-num');
+    if(i<n) num.innerHTML = '✓';
+    else num.innerHTML = i;
+  }
+}
+
+// ── Sélection options ──
+function selectionner(btn, groupe) {
+  document.querySelectorAll('#'+groupe+' .option-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const val = btn.dataset.val;
+  if(groupe==='opt-public') F.public = val;
+  if(groupe==='opt-niveau') F.niveau = val;
+  if(groupe==='opt-format') F.format = val;
+  if(groupe==='opt-duree') {
+    F.duree = val;
+    document.getElementById('bloc-seances').style.display = val==='plusieurs' ? 'block' : 'none';
+  }
+  if(groupe==='opt-besoin') F.besoin = val;
+}
+
+function selDoc(id) {
+  document.querySelectorAll('.doc-carte').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('doc-'+id).classList.add('selected');
+  F.doc = id;
+}
+
+// ── Récap ──
+function majRecap() {
+  F.formateur = document.getElementById('formateur').value;
+  F.intitule = document.getElementById('intitule').value;
+  F.objectif = document.getElementById('objectif').value;
+  F.contexte = document.getElementById('contexte').value;
+  F.qualiopi = document.getElementById('qualiopi').value;
+  F.tva = document.getElementById('tva').value;
+  F.secteur = document.getElementById('secteur').value;
+  F.groupe = document.getElementById('groupe').value;
+  F.contraintes = document.getElementById('contraintes').value;
+  F.seances = document.getElementById('seances-detail').value;
+
+  const dureeLabel = F.duree==='90'?'90 min (1h30)':F.duree==='120'?'120 min (2h)':F.duree==='180'?'180 min (3h)':F.seances||'Plusieurs séances';
+
+  document.getElementById('recap-zone').innerHTML = `
+    <div class="recap-item"><div class="recap-key">Formateur</div><div class="recap-val">${F.formateur||'—'}</div></div>
+    <div class="recap-item"><div class="recap-key">Formation</div><div class="recap-val">${F.intitule||'—'}</div></div>
+    <div class="recap-item"><div class="recap-key">Public</div><div class="recap-val">${F.public||'—'}</div></div>
+    <div class="recap-item"><div class="recap-key">Niveau</div><div class="recap-val">${F.niveau||'—'}</div></div>
+    <div class="recap-item"><div class="recap-key">Format</div><div class="recap-val">${F.format||'—'}</div></div>
+    <div class="recap-item"><div class="recap-key">Durée totale</div><div class="recap-val">${dureeLabel}</div></div>
+    <div class="recap-item"><div class="recap-key">Groupe</div><div class="recap-val">${F.groupe}</div></div>
+    <div class="recap-item"><div class="recap-key">Besoin principal</div><div class="recap-val">${F.besoin||'—'}</div></div>
+  `;
+}
+
+// ── Prompts ──
+function buildPrompt() {
+  const dureeMin = F.duree==='plusieurs' ? (F.seances||'plusieurs séances') : F.duree+' minutes';
+  const dureeNum = parseInt(F.duree) || 0;
+
+  const base = `Tu es un expert en ingénierie pédagogique. Tu génères des documents de formation professionnels, précis et directement utilisables.
+
+CONTEXTE DE LA FORMATION :
+- Formateur / Organisme : ${F.formateur||'Non précisé'}
+- Intitulé : ${F.intitule||'Non précisé'}
+- Objectif opérationnel : ${F.objectif||'Non précisé'}
+- Public : ${F.public||'Non précisé'} — Secteur : ${F.secteur||'Non précisé'}
+- Niveau numérique : ${F.niveau||'Non précisé'}
+- Format : ${F.format||'Non précisé'}
+- Durée totale : ${dureeMin}
+- Taille du groupe : ${F.groupe}
+- Besoin principal : ${F.besoin||'Non précisé'}
+- Contexte / contraintes : ${F.contexte||F.contraintes||'Aucun'}
+- Qualiopi : ${F.qualiopi==='oui'?'Oui':'Non'}`;
+
+  const guardrails = `
+RÈGLES PÉDAGOGIQUES ABSOLUES :
+- Pas d'exposé magistral supérieur à 10 minutes consécutives
+- Ratio Losada : 3 moments positifs / encourageants pour 1 moment correctif
+- Droit à l'erreur intégré dans chaque séquence pratique
+- Alternance obligatoire : théorie → pratique → évaluation (triptyque)
+- Maximum 4 objectifs pédagogiques par journée
+- Taxonomie de Bloom respectée pour tous les objectifs
+- Andragogie : les adultes apprennent par l'expérience et le sens`;
+
+  if(F.doc==='spd') return base + guardrails + `
+
+DOCUMENT À GÉNÉRER : Scénario Pédagogique Détaillé (SPD) COMPLET
+
+RÈGLE ABSOLUE SUR LES DURÉES : La somme de TOUTES les durées des étapes du tableau DOIT être EXACTEMENT égale à ${dureeMin}. Vérifie ce calcul avant de générer. Si la somme ne correspond pas, ajuste les étapes.
+
+Structure attendue :
+1. En-tête : titre, formateur, date, durée totale, format, groupe, objectifs SMART
+2. Tableau SPD avec ces 8 colonnes exactes : Durée | Étape | Contenu détaillé | Méthode pédagogique | Rôle du formateur | Rôle du stagiaire | Outils / Supports | Évaluation
+3. Note de bas de page : total des durées = ${dureeMin} (vérification)
+
+Génère en HTML propre, sans balises \`\`\` ni markdown. Commence directement par le contenu HTML.`;
+
+  if(F.doc==='plan') return base + guardrails + `
+
+DOCUMENT À GÉNÉRER : Plan de Formation complet
+
+Structure attendue :
+1. Fiche synthétique (public, prérequis, objectifs, durée, modalités)
+2. Objectifs pédagogiques selon Bloom (6 niveaux) — au moins 3 objectifs par niveau pertinent
+3. Tableau compétences : Savoir / Savoir-faire / Savoir-être
+4. Progression ADDIE : Analyse → Design → Développement → Implémentation → Évaluation
+5. Ressources et matériels nécessaires
+
+Génère en HTML propre sans \`\`\`.`;
+
+  if(F.doc==='guide') return base + `
+
+DOCUMENT À GÉNÉRER : Guide de bord Jour J
+
+Structure attendue :
+1. Checklist avant la session (matériel, salle, connexion, supports)
+2. Tableau horodaté précis : Heure | Durée | Ce que fait le formateur | Ce que font les apprenants | Points de vigilance
+3. Signaux d'alerte et ajustements possibles en temps réel
+4. Checklist de clôture
+
+La somme des durées = ${dureeMin}. Génère en HTML propre sans \`\`\`.`;
+
+  if(F.doc==='quiz') return base + `
+
+DOCUMENT À GÉNÉRER : Quiz pédagogique selon Bloom
+
+IMPORTANT : Pas de QCM classiques uniquement. Varier les formats.
+
+Structure attendue (minimum 15 questions) :
+- Niveau 1 Mémorisation : flashcards question/réponse (5 cartes)
+- Niveau 2 Compréhension : reformulation en ses propres mots (3 exercices)
+- Niveau 3 Application : mise en situation concrète (3 scénarios)
+- Niveau 4 Analyse : étude de cas avec questions ouvertes (2 cas)
+- Niveau 5 Évaluation : grille de jugement (2 critères)
+- Niveau 6 Création : mini-projet ou production (1 exercice)
+
+Génère en HTML propre sans \`\`\`.`;
+
+  if(F.doc==='kirk') return base + `
+
+DOCUMENT À GÉNÉRER : Évaluation Kirkpatrick 4 niveaux
+
+Structure attendue :
+- Niveau 1 — Réaction : questionnaire de satisfaction à chaud (10 questions, échelles + questions ouvertes)
+- Niveau 2 — Apprentissage : grille d'auto-évaluation des acquis avant/après (8 compétences)
+- Niveau 3 — Transfert : grille d'observation terrain à remplir par le manager 30 jours après (6 indicateurs)
+- Niveau 4 — Résultats : tableau KPI business mesurables liés à la formation (5 indicateurs)
+
+Génère en HTML propre sans \`\`\`.`;
+
+  if(F.doc==='froid') return base + `
+
+DOCUMENT À GÉNÉRER : Questionnaire d'évaluation à froid
+
+À envoyer 4 à 8 semaines après la formation.
+
+Structure attendue :
+1. Introduction (rappel de la formation, objectif du questionnaire)
+2. Transfert des acquis (5 questions sur l'application en situation réelle)
+3. Changements de pratique (3 questions ouvertes)
+4. Obstacles rencontrés (3 questions)
+5. Besoins complémentaires (2 questions)
+6. Recommandation Net Promoter Score
+
+Génère en HTML propre sans \`\`\`.`;
+
+  return base + '\n\nGénère un document pédagogique complet et professionnel en HTML propre sans \`\`\`.';
+}
+
+// ── Génération ──
+async function generer() {
+  if(!F.doc) {
+    afficherErreur('Veuillez sélectionner un document à générer.');
+    return;
+  }
+  if(API_KEY === 'VOTRE_CLE_API_ICI  ') {
+    afficherErreur('Clé API non configurée. Contactez Aurélie Maunie — ludomaia41400@gmail.com');
+    return;
+  }
+
+  document.getElementById('erreur-zone').style.display = 'none';
+  document.getElementById('loader-zone').style.display = 'block';
+  document.getElementById('btn-generer').disabled = true;
+  document.getElementById('zone-resultat').style.display = 'none';
+
+  const titresDoc = {
+    spd:'Scénario Pédagogique Détaillé', plan:'Plan de Formation',
+    guide:'Guide Jour J', quiz:'Quiz Bloom', kirk:'Kirkpatrick 4 niveaux', froid:'Questionnaire à froid'
+  };
+
+  try {
+    const response = await fetch(API_URL, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version':'2023-06-01'
+      },
+      body: JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:4000,
+        messages:[{ role:'user', content: buildPrompt() }]
+      })
+    });
+
+    const data = await response.json();
+
+    if(!response.ok) {
+      afficherErreur('Erreur API : ' + (data.error?.message || response.status));
+      return;
+    }
+
+    let texte = data.content?.[0]?.text || '';
+    // Nettoyage des balises code résiduelles
+    texte = texte.replace(/^```html\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+
+    document.getElementById('loader-zone').style.display = 'none';
+    document.getElementById('zone-resultat').style.display = 'block';
+    document.getElementById('resultat-titre').textContent = titresDoc[F.doc] || 'Document';
+    document.getElementById('resultat-meta').textContent = (F.intitule||'Formation') + ' • ' + (F.formateur||'') + ' • ' + new Date().toLocaleDateString('fr-FR');
+    document.getElementById('contenu-resultat').innerHTML = texte;
+
+    document.getElementById('zone-resultat').scrollIntoView({behavior:'smooth'});
+
+  } catch(e) {
+    afficherErreur('Erreur de connexion : ' + e.message);
+  } finally {
+    document.getElementById('btn-generer').disabled = false;
+  }
+}
+
+function afficherErreur(msg) {
+  const el = document.getElementById('erreur-zone');
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+  document.getElementById('loader-zone').style.display = 'none';
+  document.getElementById('btn-generer').disabled = false;
+}
+
+function copierResultat() {
+  const texte = document.getElementById('contenu-resultat').innerText;
+  navigator.clipboard.writeText(texte).then(()=>{
+    const btn = document.querySelector('.btn-copier');
+    btn.textContent = '✓ Copié !';
+    setTimeout(()=>btn.textContent='📋 Copier', 2000);
+  });
+}
+
+function nouveau() {
+  document.getElementById('zone-resultat').style.display = 'none';
+  allerPage(1);
+}
+</script>
+</body>
+</html>
