@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: declic-ia-assistant-spd
+    runtime: python
+    buildCommand: "echo 'Aucune dépendance externe, Python standard library uniquement.'"
+    startCommand: "python server.py"
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false        # tu saisis la clé manuellement dans le dashboard Render
+      - key: PORT
+        value: 10000       # Render utilise le port 10000 par défaut
+    autoDeploy: true       # redéploiement automatique à chaque push GitHub
