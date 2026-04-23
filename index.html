@@ -9,7 +9,7 @@
 :root{
   --or:#C9A84C;--or-c:#F5E6C0;--or-p:#FFFDF5;
   --m:#0F1F3D;--m2:#1A2F52;--m3:#253660;
-  --b:#FFFFFF;--g:#F5F4F0;--g2:#E8E5DE;--g3:#D0CCBF;
+  --b:#FFFFFF;--g:#F5F4F0;--g2:#E8E5DE;
   --t:#1A1A1A;--t2:#4A4A4A;--t3:#888;
   --vt:#2E7D52;--rg:#B83232;
   --sh:0 2px 20px rgba(15,31,61,.08);--sh2:0 8px 40px rgba(15,31,61,.14);
@@ -24,7 +24,10 @@ header{background:var(--m);padding:16px 40px;display:flex;align-items:center;jus
 .fbadge{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--or);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500}
 .breset{background:transparent;border:1px solid #3A4F6A;color:#6A80AA;padding:6px 12px;border-radius:8px;font-size:11px;cursor:pointer;transition:.2s}
 .breset:hover{border-color:var(--or);color:var(--or)}
-main{max-width:100%;margin:0 auto;padding:32px 20px 80px}
+
+/* LAYOUT — pleine largeur */
+main{width:100%;max-width:100%;padding:32px 24px 80px}
+
 .pwrap{background:var(--b);border-radius:var(--r);padding:18px 28px;box-shadow:var(--sh);margin-bottom:24px;display:flex;align-items:center;gap:0}
 .ps{display:flex;align-items:center;gap:8px;flex:1;opacity:.35;transition:.3s}
 .ps.active{opacity:1}.ps.done{opacity:.65}
@@ -32,6 +35,7 @@ main{max-width:100%;margin:0 auto;padding:32px 20px 80px}
 .ps.active .pn{background:var(--or);color:var(--m)}.ps.done .pn{background:var(--vt);color:#fff}
 .pl{font-size:11px;font-weight:500;color:var(--t2);line-height:1.2}.ps.active .pl{color:var(--m);font-weight:600}
 .psep{width:18px;height:1px;background:var(--g2);flex-shrink:0}
+
 .c{background:var(--b);border-radius:var(--r);padding:32px;box-shadow:var(--sh);margin-bottom:20px}
 .et{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:8px}
 .ts{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--m);margin-bottom:6px}
@@ -42,8 +46,6 @@ main{max-width:100%;margin:0 auto;padding:32px 20px 80px}
 input[type=text],textarea,select{width:100%;padding:11px 14px;border:2px solid var(--g2);border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--t);background:var(--b);transition:border-color .2s;outline:none;resize:vertical}
 input:focus,textarea:focus,select:focus{border-color:var(--or)}
 textarea{min-height:80px}
-input.err,textarea.err{border-color:var(--rg)!important}
-.err-msg{font-size:11px;color:var(--rg);margin-top:4px;display:none}
 .opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
 .ob{padding:10px 16px;border:2px solid var(--g2);border-radius:8px;background:var(--b);cursor:pointer;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:var(--t2);transition:all .2s;display:flex;align-items:center;gap:7px;line-height:1.3}
 .ob:hover{border-color:var(--or);color:var(--m);background:var(--or-p)}
@@ -63,9 +65,11 @@ input.err,textarea.err{border-color:var(--rg)!important}
 .ldr-s{font-size:12px;color:var(--t3);margin-top:6px}
 .ldr-steps{margin-top:20px;display:flex;flex-direction:column;gap:6px}
 .ldr-step{font-size:12px;color:var(--t3);opacity:.4;transition:.3s}
-.ldr-step.on{opacity:1;color:var(--or)}
+.ldr-step.on{opacity:1;color:var(--or);font-weight:600}
 .er{background:#FEF2F2;border:1px solid #FCA5A5;border-radius:8px;padding:14px 18px;color:var(--rg);font-size:13px;margin-top:14px;display:none}
-#zres{background:var(--b);border-radius:var(--r);box-shadow:var(--sh2);overflow:hidden;display:none;margin-top:20px}
+
+/* RÉSULTAT — pleine largeur, scroll horizontal */
+#zres{background:var(--b);border-radius:var(--r);box-shadow:var(--sh2);overflow:hidden;display:none;margin-top:20px;width:100%}
 .rh{background:var(--m);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .rt{font-family:'Playfair Display',serif;font-size:20px;color:#fff;font-weight:600}
 .rm{font-size:11px;color:#6A80AA;margin-top:2px}
@@ -73,33 +77,74 @@ input.err,textarea.err{border-color:var(--rg)!important}
 .bco,.bim{padding:7px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:.2s}
 .bco{background:var(--or);color:var(--m)}.bim{background:transparent;color:var(--or);border:1px solid var(--or)}
 .bco:hover,.bim:hover{opacity:.8}
-/* Sections résultat */
-.sections-nav{display:flex;gap:8px;padding:16px 32px;border-bottom:1px solid var(--g2);flex-wrap:wrap;background:var(--g)}
-.snav-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--g2);background:var(--b);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;transition:.2s}
-.snav-btn:hover{border-color:var(--or);color:var(--m)}
-.snav-btn.active{border-color:var(--m);background:var(--m);color:#fff}
-.section-content{display:none;padding:32px;font-size:13px;line-height:1.85;color:var(--t);overflow-x:scroll;width:100%}
-.section-content.visible{display:block}
-.section-content h1{font-family:'Playfair Display',serif;font-size:24px;color:var(--m);margin:20px 0 10px;border-bottom:2px solid var(--or-c);padding-bottom:6px}
-.section-content h2{font-family:'Playfair Display',serif;font-size:18px;color:var(--m2);margin:18px 0 8px}
-.section-content h3{font-size:14px;color:var(--m3);margin:14px 0 6px;font-weight:600}
-.section-content p{margin-bottom:8px}
-.section-content ul,.section-content ol{margin:6px 0 10px 18px}
-.section-content li{margin-bottom:3px}
-.section-content strong{color:var(--m)}
-.section-content table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;min-width:900px}
-.section-content th{background:var(--m);color:#fff;padding:9px 11px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.3px}
-.section-content td{padding:9px 11px;border-bottom:1px solid var(--g2);vertical-align:top}
-.section-content tr:nth-child(even) td{background:var(--or-p)}
-.sec-loading{text-align:center;padding:40px;color:var(--t3);font-size:13px}
-.sec-loading .mini-sp{width:24px;height:24px;border:2px solid var(--or-c);border-top-color:var(--or);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}
+
+/* Document unique continu */
+#doc-contenu{
+  padding:32px;
+  width:100%;
+  overflow-x:auto;
+  font-size:13px;
+  line-height:1.85;
+  color:var(--t);
+}
+#doc-contenu .section-bloc{
+  margin-bottom:48px;
+  padding-bottom:48px;
+  border-bottom:3px solid var(--or-c);
+}
+#doc-contenu .section-bloc:last-child{border-bottom:none}
+#doc-contenu .section-titre{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  color:var(--m);
+  margin-bottom:20px;
+  padding:12px 20px;
+  background:var(--m);
+  color:#fff;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+#doc-contenu h1{font-family:'Playfair Display',serif;font-size:22px;color:var(--m);margin:20px 0 10px;border-bottom:2px solid var(--or-c);padding-bottom:6px}
+#doc-contenu h2{font-family:'Playfair Display',serif;font-size:17px;color:var(--m2);margin:16px 0 8px}
+#doc-contenu h3{font-size:14px;color:var(--m3);margin:12px 0 6px;font-weight:600}
+#doc-contenu p{margin-bottom:8px}
+#doc-contenu ul,#doc-contenu ol{margin:6px 0 10px 18px}
+#doc-contenu li{margin-bottom:3px}
+#doc-contenu strong{color:var(--m)}
+/* TABLEAU — scroll forcé */
+#doc-contenu table{
+  width:100%;
+  min-width:1100px;
+  border-collapse:collapse;
+  margin:14px 0;
+  font-size:12px;
+  table-layout:fixed;
+}
+#doc-contenu th{background:var(--m);color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.3px;word-wrap:break-word}
+#doc-contenu td{padding:10px 12px;border-bottom:1px solid var(--g2);vertical-align:top;word-wrap:break-word}
+#doc-contenu tr:nth-child(even) td{background:var(--or-p)}
+/* Largeurs colonnes SPD */
+#doc-contenu table th:nth-child(1),#doc-contenu table td:nth-child(1){width:70px}
+#doc-contenu table th:nth-child(2),#doc-contenu table td:nth-child(2){width:130px}
+#doc-contenu table th:nth-child(3),#doc-contenu table td:nth-child(3){width:220px}
+#doc-contenu table th:nth-child(4),#doc-contenu table td:nth-child(4){width:130px}
+#doc-contenu table th:nth-child(5),#doc-contenu table td:nth-child(5){width:150px}
+#doc-contenu table th:nth-child(6),#doc-contenu table td:nth-child(6){width:150px}
+#doc-contenu table th:nth-child(7),#doc-contenu table td:nth-child(7){width:150px}
+#doc-contenu table th:nth-child(8),#doc-contenu table td:nth-child(8){width:130px}
+
+.sec-loading{text-align:center;padding:30px;color:var(--t3);font-size:13px}
+.mini-sp{width:24px;height:24px;border:2px solid var(--or-c);border-top-color:var(--or);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}
 .rfoot{padding:16px 32px;border-top:1px solid var(--g2);display:flex;gap:10px;flex-wrap:wrap}
-/* Recap */
 .rcg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .ri{background:var(--g);border-radius:8px;padding:12px 16px}
 .rk{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:3px}
 .rv{font-size:13px;font-weight:500;color:var(--m)}
-/* Écran démarrage */
+.note-form{background:linear-gradient(135deg,#1A2F52,#0F1F3D);border-radius:10px;padding:16px 20px;margin-bottom:20px;border-left:3px solid var(--or)}
+.note-form p{font-size:12px;color:#8899BB;line-height:1.6}
+.note-form strong{color:var(--or)}
 #dem{position:fixed;inset:0;background:var(--m);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
 .db{background:#fff;border-radius:16px;padding:48px;max-width:480px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.3);text-align:center}
 .dl{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--m)}.dl span{color:var(--or)}
@@ -112,11 +157,7 @@ input.err,textarea.err{border-color:var(--rg)!important}
 .bdem{width:100%;background:var(--or);color:var(--m);border:none;padding:15px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:all .2s}
 .bdem:hover{background:#B8932A;transform:translateY(-1px)}
 .dn{font-size:11px;color:var(--t3);margin-top:14px;line-height:1.5}
-/* Note formateur */
-.note-form{background:linear-gradient(135deg,#1A2F52,#0F1F3D);border-radius:10px;padding:16px 20px;margin-bottom:20px;border-left:3px solid var(--or)}
-.note-form p{font-size:12px;color:#8899BB;line-height:1.6}
-.note-form strong{color:var(--or)}
-@media print{@page{size:landscape;margin:12mm}header,.pwrap,.ac,.rac,.rfoot,.sections-nav,footer{display:none!important}#zres{box-shadow:none;display:block!important}.section-content{display:block!important;padding:0}}
+@media print{@page{size:landscape;margin:10mm}header,.pwrap,.ac,.rac,.rfoot,footer{display:none!important}#zres{box-shadow:none;display:block!important}#doc-contenu{padding:0;overflow-x:visible}}
 @media(max-width:600px){main{padding:16px 12px 60px}.c{padding:20px 16px}.g2{grid-template-columns:1fr}.rcg{grid-template-columns:1fr}.pwrap{display:none}}
 footer{text-align:center;padding:20px;font-size:11px;color:var(--t3);border-top:1px solid var(--g2);margin-top:32px}
 footer a{color:var(--or);text-decoration:none}
@@ -124,7 +165,6 @@ footer a{color:var(--or);text-decoration:none}
 </head>
 <body>
 
-<!-- DÉMARRAGE -->
 <div id="dem">
   <div class="db">
     <div class="dl">Déclic <span>IA</span></div>
@@ -146,7 +186,6 @@ footer a{color:var(--or);text-decoration:none}
 </header>
 
 <main>
-  <!-- PROGRESS -->
   <div class="pwrap">
     <div class="ps active" id="ps1"><div class="pn">1</div><div class="pl">Profil<br>client</div></div>
     <div class="psep"></div>
@@ -159,12 +198,11 @@ footer a{color:var(--or);text-decoration:none}
     <div class="ps" id="ps5"><div class="pn">5</div><div class="pl">Génération</div></div>
   </div>
 
-  <!-- PAGE 1 — PROFIL CLIENT -->
+  <!-- PAGE 1 -->
   <div id="p1" class="c">
     <div class="et">Étape 1 — Cahier des charges</div>
     <div class="ts">Profil du client / apprenant</div>
-    <div class="ss">Le métier et le statut déterminent automatiquement les thématiques proposées à l'étape suivante.</div>
-
+    <div class="ss">Le métier et le statut déterminent automatiquement les thématiques proposées.</div>
     <div class="et">Statut principal</div>
     <div class="opts" id="o-statut">
       <button class="ob" data-v="Entrepreneur / Indépendant" onclick="sel(this,'o-statut')"><span class="ic">🧑‍💼</span>Entrepreneur / Indépendant</button>
@@ -179,8 +217,7 @@ footer a{color:var(--or);text-decoration:none}
       <button class="ob" data-v="Organisme de formation" onclick="sel(this,'o-statut')"><span class="ic">🏫</span>Organisme de formation</button>
       <button class="ob" data-v="Directeur / Manager" onclick="sel(this,'o-statut')"><span class="ic">📊</span>Directeur / Manager</button>
     </div>
-
-    <div class="et" style="margin-top:4px">Secteur / Métier <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:11px">— détermine les thématiques proposées</span></div>
+    <div class="et" style="margin-top:4px">Secteur / Métier</div>
     <div class="opts" id="o-metier">
       <button class="ob" data-v="Artisan / Commerçant" onclick="sel(this,'o-metier')"><span class="ic">🔨</span>Artisan / Commerçant</button>
       <button class="ob" data-v="Infographiste / Créatif" onclick="sel(this,'o-metier')"><span class="ic">🎨</span>Infographiste / Créatif</button>
@@ -195,28 +232,19 @@ footer a{color:var(--or);text-decoration:none}
       <button class="ob" data-v="Communication / Marketing" onclick="sel(this,'o-metier')"><span class="ic">📣</span>Communication / Marketing</button>
       <button class="ob" data-v="Bâtiment / Artisanat technique" onclick="sel(this,'o-metier')"><span class="ic">🏗️</span>Bâtiment / Artisanat technique</button>
     </div>
-    <div class="ch"><label>Précisez si autre <span class="opt">(optionnel)</span></label><input type="text" id="metier-a" placeholder="ex : photographe, architecte, sage-femme..."></div>
-
+    <div class="ch"><label>Précisez si autre <span class="opt">(optionnel)</span></label><input type="text" id="metier-a" placeholder="ex : photographe, architecte..."></div>
     <div class="g2">
-      <div class="ch">
-        <label>Intitulé de la formation / atelier</label>
-        <input type="text" id="intitule" placeholder="ex : Découverte de l'IA pour les PME">
-      </div>
-      <div class="ch">
-        <label>Objectif opérationnel principal</label>
-        <input type="text" id="objectif" placeholder="Ce que le participant fait seul à l'issue">
-      </div>
+      <div class="ch"><label>Intitulé de la formation / atelier</label><input type="text" id="intitule" placeholder="ex : Découverte de l'IA pour les PME"></div>
+      <div class="ch"><label>Objectif opérationnel principal</label><input type="text" id="objectif" placeholder="Ce que le participant fait seul à l'issue"></div>
     </div>
-
     <div class="ac"><button class="bp" onclick="aller(2)">Suivant →</button></div>
   </div>
 
-  <!-- PAGE 2 — AUDIT -->
+  <!-- PAGE 2 -->
   <div id="p2" class="c" style="display:none">
     <div class="et">Étape 2 — Audit des besoins</div>
     <div class="ts">Ce que ressent et vit votre client</div>
     <div class="ss">Plus l'audit est précis, plus le SPD sera sur mesure.</div>
-
     <div class="et">Pratique actuelle de l'IA</div>
     <div class="opts" id="o-pratique">
       <button class="ob" data-v="Zéro — jamais utilisé l'IA" onclick="sel(this,'o-pratique')"><span class="ic">🌱</span>Jamais utilisé l'IA</button>
@@ -225,58 +253,46 @@ footer a{color:var(--or);text-decoration:none}
       <button class="ob" data-v="Utilise l'IA mais veut progresser" onclick="sel(this,'o-pratique')"><span class="ic">🚀</span>Utilise et veut progresser</button>
       <button class="ob" data-v="Groupe hétérogène — niveaux très variés" onclick="sel(this,'o-pratique')"><span class="ic">❓</span>Groupe hétérogène</button>
     </div>
-
     <hr class="sep">
     <div class="et">Ce qui freine / les peurs <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:11px">(plusieurs choix)</span></div>
     <div class="opts" id="o-freins">
       <button class="ob" data-v="Peur de perdre son emploi" onclick="ms(this,'o-freins')"><span class="ic">😰</span>Peur de perdre son emploi</button>
       <button class="ob" data-v="Trop complexe / technique" onclick="ms(this,'o-freins')"><span class="ic">🤯</span>Trop complexe</button>
-      <button class="ob" data-v="Manque de temps pour apprendre" onclick="ms(this,'o-freins')"><span class="ic">⏰</span>Manque de temps</button>
-      <button class="ob" data-v="Méfiance sur les données personnelles" onclick="ms(this,'o-freins')"><span class="ic">🔒</span>Données personnelles</button>
+      <button class="ob" data-v="Manque de temps" onclick="ms(this,'o-freins')"><span class="ic">⏰</span>Manque de temps</button>
+      <button class="ob" data-v="Méfiance données personnelles" onclick="ms(this,'o-freins')"><span class="ic">🔒</span>Données personnelles</button>
       <button class="ob" data-v="Coût des outils IA" onclick="ms(this,'o-freins')"><span class="ic">💸</span>Coût des outils</button>
       <button class="ob" data-v="Ne voit pas l'utilité concrète" onclick="ms(this,'o-freins')"><span class="ic">🤷</span>Pas d'utilité concrète</button>
       <button class="ob" data-v="Peur de faire des erreurs" onclick="ms(this,'o-freins')"><span class="ic">😟</span>Peur des erreurs</button>
       <button class="ob" data-v="Questions éthiques / fake news" onclick="ms(this,'o-freins')"><span class="ic">⚠️</span>Éthique / fake news</button>
     </div>
-
     <hr class="sep">
     <div class="et">Ce qui attire / motive <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:11px">(plusieurs choix)</span></div>
     <div class="opts" id="o-attraits">
       <button class="ob" data-v="Gagner du temps au quotidien" onclick="ms(this,'o-attraits')"><span class="ic">⚡</span>Gagner du temps</button>
       <button class="ob" data-v="Améliorer la qualité de son travail" onclick="ms(this,'o-attraits')"><span class="ic">✨</span>Améliorer la qualité</button>
       <button class="ob" data-v="Rester compétitif dans son secteur" onclick="ms(this,'o-attraits')"><span class="ic">🏆</span>Rester compétitif</button>
-      <button class="ob" data-v="Créer de nouveaux services / offres" onclick="ms(this,'o-attraits')"><span class="ic">💡</span>Créer de nouveaux services</button>
+      <button class="ob" data-v="Créer de nouveaux services" onclick="ms(this,'o-attraits')"><span class="ic">💡</span>Créer de nouveaux services</button>
       <button class="ob" data-v="Curiosité / envie d'apprendre" onclick="ms(this,'o-attraits')"><span class="ic">🔍</span>Curiosité</button>
       <button class="ob" data-v="Automatiser les tâches répétitives" onclick="ms(this,'o-attraits')"><span class="ic">🤖</span>Automatiser</button>
     </div>
-
     <hr class="sep">
-    <div class="ch">
-      <label>Contexte particulier du client <span class="opt">(optionnel)</span></label>
-      <textarea id="contexte" placeholder="ex : groupe de seniors peu à l'aise avec le numérique, données sensibles, pas de connexion internet, situation de handicap..."></textarea>
-    </div>
-
+    <div class="ch"><label>Contexte particulier <span class="opt">(optionnel)</span></label><textarea id="contexte" placeholder="ex : groupe de seniors peu à l'aise avec le numérique, données sensibles, pas de connexion internet..."></textarea></div>
     <div class="ac">
       <button class="bs" onclick="aller(1)">← Retour</button>
       <button class="bp" onclick="aller(3)">Suivant →</button>
     </div>
   </div>
 
-  <!-- PAGE 3 — THÉMATIQUES + APPROCHE -->
+  <!-- PAGE 3 -->
   <div id="p3" class="c" style="display:none">
     <div class="et">Étape 3 — Attentes & approche</div>
     <div class="ts">Que couvre cet atelier ?</div>
-    <div class="ss">Les thématiques sont filtrées selon le métier choisi. L'approche pédagogique est réservée au formateur.</div>
-
-    <div class="et">Thématiques proposées <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:11px">(filtrées selon le métier — plusieurs choix)</span></div>
-    <div class="opts" id="o-themes"><!-- généré dynamiquement --></div>
-
+    <div class="ss">Thématiques filtrées selon le métier choisi. Approche réservée au formateur.</div>
+    <div class="et">Thématiques <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:11px">(filtrées selon le métier — plusieurs choix)</span></div>
+    <div class="opts" id="o-themes"></div>
     <hr class="sep">
-    <div class="note-form">
-      <p><strong>Note formateur</strong> — La section ci-dessous est votre outil de pilotage pédagogique. Elle n'est pas visible du client. Choisissez l'approche que vous adopterez en fonction des réponses recueillies lors de votre audit.</p>
-    </div>
-
-    <div class="et">Votre approche pédagogique <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:11px">(réservé au formateur)</span></div>
+    <div class="note-form"><p><strong>Note formateur</strong> — Choisissez votre approche pédagogique selon les réponses recueillies lors de votre audit. Cette section n'est pas visible du client.</p></div>
+    <div class="et">Votre approche pédagogique</div>
     <div class="opts" id="o-approche">
       <button class="ob" data-v="Découverte — sensibilisation grandes lignes" onclick="sel(this,'o-approche')"><span class="ic">💡</span>Découverte / Sensibilisation</button>
       <button class="ob" data-v="Pratique — manipulation directe des outils" onclick="sel(this,'o-approche')"><span class="ic">⚙️</span>Pratique — outils</button>
@@ -284,18 +300,16 @@ footer a{color:var(--or);text-decoration:none}
       <button class="ob" data-v="Mix découverte + pratique + ludique" onclick="sel(this,'o-approche')"><span class="ic">🔀</span>Mix complet</button>
       <button class="ob" data-v="Entreprise — rendre l'équipe opérationnelle rapidement" onclick="sel(this,'o-approche')"><span class="ic">🏢</span>Entreprise — opérationnel</button>
     </div>
-
     <div class="ac">
       <button class="bs" onclick="aller(2)">← Retour</button>
       <button class="bp" onclick="aller(4)">Suivant →</button>
     </div>
   </div>
 
-  <!-- PAGE 4 — MODALITÉS -->
+  <!-- PAGE 4 -->
   <div id="p4" class="c" style="display:none">
     <div class="et">Étape 4 — Modalités pratiques</div>
     <div class="ts">Organisation de l'atelier</div>
-
     <div class="g2">
       <div>
         <div class="et">Format</div>
@@ -317,7 +331,6 @@ footer a{color:var(--or);text-decoration:none}
         </div>
       </div>
     </div>
-
     <hr class="sep">
     <div class="et">Durée totale</div>
     <div class="opts" id="o-duree">
@@ -327,17 +340,13 @@ footer a{color:var(--or);text-decoration:none}
       <button class="ob" data-v="360" onclick="sel(this,'o-duree')"><span class="ic">📅</span>Journée — 360 min</button>
       <button class="ob" data-v="multi" onclick="sel(this,'o-duree');document.getElementById('bm').style.display='block'"><span class="ic">📆</span>Plusieurs séances</button>
     </div>
-    <div id="bm" style="display:none;margin-top:10px">
-      <input type="text" id="seances" placeholder="ex : 4 séances de 90 min — mardis 14h à 15h30">
-    </div>
-
+    <div id="bm" style="display:none;margin-top:10px"><input type="text" id="seances" placeholder="ex : 4 séances de 90 min — mardis 14h à 15h30"></div>
     <hr class="sep">
     <div class="g2">
       <div class="ch"><label>Horaires prévus <span class="opt">(optionnel)</span></label><input type="text" id="horaires" placeholder="ex : 9h00 à 12h00"></div>
       <div class="ch"><label>Lieu <span class="opt">(optionnel)</span></label><input type="text" id="lieu" placeholder="ex : Salle Mairie de Blois"></div>
     </div>
-    <div class="ch"><label>Matériel disponible <span class="opt">(optionnel)</span></label><input type="text" id="materiel" placeholder="ex : vidéoprojecteur, WiFi, tablettes, pas d'écran..."></div>
-
+    <div class="ch"><label>Matériel disponible <span class="opt">(optionnel)</span></label><input type="text" id="materiel" placeholder="ex : vidéoprojecteur, WiFi, tablettes..."></div>
     <div class="ac">
       <button class="bs" onclick="aller(3)">← Retour</button>
       <button class="bp" onclick="aller(5)">Suivant →</button>
@@ -348,29 +357,26 @@ footer a{color:var(--or);text-decoration:none}
   <div id="p5" class="c" style="display:none">
     <div class="et">Étape 5 — Prêt à générer</div>
     <div class="ts">Votre dossier pédagogique complet</div>
-    <div class="ss">L'assistant va générer automatiquement 5 documents complémentaires basés sur votre audit.</div>
-
+    <div class="ss">5 documents générés automatiquement en un seul dossier continu.</div>
     <div style="background:var(--g);border-radius:10px;padding:20px;margin-bottom:20px">
-      <div class="et">Récapitulatif de la demande</div>
+      <div class="et">Récapitulatif</div>
       <div class="rcg" id="reczone"></div>
     </div>
-
     <div style="background:linear-gradient(135deg,#0F1F3D,#1A2F52);border-radius:10px;padding:20px;margin-bottom:20px">
-      <div class="et" style="color:var(--or)">Documents qui seront générés automatiquement</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px">
-        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📋</div><div style="font-size:11px;color:#fff;font-weight:600">SPD Complet</div><div style="font-size:10px;color:#6A80AA;margin-top:2px">Tableau 8 colonnes</div></div>
-        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📅</div><div style="font-size:11px;color:#fff;font-weight:600">Guide Jour J</div><div style="font-size:10px;color:#6A80AA;margin-top:2px">Horodatage minute/min</div></div>
-        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">🧩</div><div style="font-size:11px;color:#fff;font-weight:600">Quiz Bloom</div><div style="font-size:10px;color:#6A80AA;margin-top:2px">Flashcards & études de cas</div></div>
-        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📊</div><div style="font-size:11px;color:#fff;font-weight:600">Kirkpatrick</div><div style="font-size:10px;color:#6A80AA;margin-top:2px">4 niveaux d'évaluation</div></div>
-        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📬</div><div style="font-size:11px;color:#fff;font-weight:600">Questionnaire à froid</div><div style="font-size:10px;color:#6A80AA;margin-top:2px">4-8 semaines après</div></div>
+      <div class="et" style="color:var(--or)">Documents générés automatiquement</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px">
+        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📋</div><div style="font-size:11px;color:#fff;font-weight:600">SPD Complet</div></div>
+        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📅</div><div style="font-size:11px;color:#fff;font-weight:600">Guide Jour J</div></div>
+        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">🧩</div><div style="font-size:11px;color:#fff;font-weight:600">Quiz Bloom</div></div>
+        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📊</div><div style="font-size:11px;color:#fff;font-weight:600">Kirkpatrick</div></div>
+        <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center"><div style="font-size:20px;margin-bottom:4px">📬</div><div style="font-size:11px;color:#fff;font-weight:600">À froid</div></div>
       </div>
     </div>
-
     <div class="er" id="erzone"></div>
     <div class="ldr" id="ldrzone">
       <div class="sp"></div>
-      <div class="ldr-t">Génération de votre dossier pédagogique…</div>
-      <div class="ldr-s">Cela peut prendre 60 à 90 secondes — 5 documents sont en cours de création</div>
+      <div class="ldr-t">Génération de votre dossier…</div>
+      <div class="ldr-s">60 à 90 secondes — 5 documents en cours de création</div>
       <div class="ldr-steps">
         <div class="ldr-step" id="ls1">📋 Scénario Pédagogique Détaillé…</div>
         <div class="ldr-step" id="ls2">📅 Guide Jour J…</div>
@@ -379,34 +385,28 @@ footer a{color:var(--or);text-decoration:none}
         <div class="ldr-step" id="ls5">📬 Questionnaire à froid…</div>
       </div>
     </div>
-
     <div class="ac">
       <button class="bs" onclick="aller(4)">← Retour</button>
       <button class="bp" id="btngen" onclick="generer()">✨ Générer le dossier complet</button>
     </div>
   </div>
 
-  <!-- RÉSULTAT -->
+  <!-- RÉSULTAT — document unique continu -->
   <div id="zres">
     <div class="rh">
       <div><div class="rt">Dossier Pédagogique Complet</div><div class="rm" id="rmeta"></div></div>
       <div class="rac">
         <button class="bim" onclick="window.print()">🖨️ PDF</button>
-        <button class="bco" onclick="copier()">📋 Copier section</button>
+        <button class="bco" onclick="copier()">📋 Copier tout</button>
       </div>
     </div>
-    <div class="sections-nav" id="secnav">
-      <button class="snav-btn active" onclick="showSec(0,this)">📋 SPD</button>
-      <button class="snav-btn" onclick="showSec(1,this)">📅 Guide Jour J</button>
-      <button class="snav-btn" onclick="showSec(2,this)">🧩 Quiz Bloom</button>
-      <button class="snav-btn" onclick="showSec(3,this)">📊 Kirkpatrick</button>
-      <button class="snav-btn" onclick="showSec(4,this)">📬 À froid</button>
+    <div id="doc-contenu">
+      <div id="sec0" class="section-bloc"><div class="section-titre">📋 Scénario Pédagogique Détaillé</div><div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div></div>
+      <div id="sec1" class="section-bloc"><div class="section-titre">📅 Guide Jour J</div><div class="sec-loading"><div class="mini-sp"></div>En attente…</div></div>
+      <div id="sec2" class="section-bloc"><div class="section-titre">🧩 Quiz Bloom</div><div class="sec-loading"><div class="mini-sp"></div>En attente…</div></div>
+      <div id="sec3" class="section-bloc"><div class="section-titre">📊 Kirkpatrick 4 niveaux</div><div class="sec-loading"><div class="mini-sp"></div>En attente…</div></div>
+      <div id="sec4" class="section-bloc"><div class="section-titre">📬 Questionnaire à froid</div><div class="sec-loading"><div class="mini-sp"></div>En attente…</div></div>
     </div>
-    <div id="sec0" class="section-content visible"><div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div></div>
-    <div id="sec1" class="section-content"><div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div></div>
-    <div id="sec2" class="section-content"><div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div></div>
-    <div id="sec3" class="section-content"><div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div></div>
-    <div id="sec4" class="section-content"><div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div></div>
     <div class="rfoot">
       <button class="bs" onclick="aller(5)">← Modifier</button>
       <button class="bp" onclick="nouveau()">✨ Nouveau dossier</button>
@@ -418,26 +418,22 @@ footer a{color:var(--or);text-decoration:none}
 
 <script>
 const API="/api/generate";
-
-// Thématiques par métier
-const THEMES_METIER = {
-  "Artisan / Commerçant": ["Le prompt — méthode et pratique","Créer du contenu avec l'IA","Rédiger des mails rapides et percutants","Construire son offre vendable avec l'IA","Outils gratuits vs payants","Actualité IA 2026","IA générative — c'est quoi ?","Quiz & jeux IA"],
-  "Infographiste / Créatif": ["Créer du contenu avec l'IA","Le prompt — méthode et pratique","Outils par métier","IA générative — c'est quoi ?","Éthique & esprit critique","Actualité IA 2026","Outils gratuits vs payants","Quiz & jeux IA"],
-  "Commercial / Vente": ["Rédiger des mails rapides et percutants","Construire son offre vendable avec l'IA","Page LinkedIn pro","Le prompt — méthode et pratique","Créer du contenu avec l'IA","Actualité IA 2026","Outils gratuits vs payants","Quiz & jeux IA"],
-  "Informatique / Tech": ["IA générative — c'est quoi ?","Le prompt — méthode et pratique","Outils par métier","Éthique & esprit critique","Actualité IA 2026","Métiers & IA","Histoire & grandes dates","Quiz & jeux IA"],
-  "Juridique / Droit": ["Éthique & esprit critique","IA générative — c'est quoi ?","Métiers & IA","Outils par métier","Le prompt — méthode et pratique","Actualité IA 2026","Histoire & grandes dates","Quiz & jeux IA"],
-  "Finance / Comptabilité": ["IA générative — c'est quoi ?","Outils par métier","Le prompt — méthode et pratique","Éthique & esprit critique","Métiers & IA","Actualité IA 2026","Rédiger des mails rapides et percutants","Quiz & jeux IA"],
-  "Administration / RH": ["Rédiger des mails rapides et percutants","Le prompt — méthode et pratique","IA générative — c'est quoi ?","Outils par métier","Éthique & esprit critique","Actualité IA 2026","Métiers & IA","Quiz & jeux IA"],
-  "Formateur / Coach": ["IA générative — c'est quoi ?","Le prompt — méthode et pratique","Créer du contenu avec l'IA","Construire son offre vendable avec l'IA","Éthique & esprit critique","Actualité IA 2026","Quiz & jeux IA","Histoire & grandes dates"],
-  "Santé / Bien-être": ["IA générative — c'est quoi ?","Éthique & esprit critique","Outils par métier","Le prompt — méthode et pratique","Actualité IA 2026","Métiers & IA","Outils gratuits vs payants","Quiz & jeux IA"],
-  "Enseignement / Éducation": ["Histoire & grandes dates","IA générative — c'est quoi ?","Éthique & esprit critique","Quiz & jeux IA","Le prompt — méthode et pratique","Métiers & IA","Actualité IA 2026","Créer du contenu avec l'IA"],
-  "Communication / Marketing": ["Créer du contenu avec l'IA","Page LinkedIn pro","Rédiger des mails rapides et percutants","Le prompt — méthode et pratique","Construire son offre vendable avec l'IA","Actualité IA 2026","Outils gratuits vs payants","Quiz & jeux IA"],
-  "Bâtiment / Artisanat technique": ["IA générative — c'est quoi ?","Outils gratuits vs payants","Le prompt — méthode et pratique","Actualité IA 2026","Métiers & IA","Éthique & esprit critique","Rédiger des mails rapides et percutants","Quiz & jeux IA"],
-  "default": ["Histoire & grandes dates","IA générative — c'est quoi ?","Éthique & esprit critique","Métiers & IA","Outils par métier","Outils gratuits vs payants","Le prompt — méthode et pratique","Créer du contenu avec l'IA","Rédiger des mails rapides et percutants","Page LinkedIn pro","Construire son offre vendable avec l'IA","Équipe opérationnelle IA","Actualité IA 2026","Quiz & jeux IA"]
+const THEMES={
+  "Artisan / Commerçant":["Le prompt — méthode et pratique","Créer du contenu avec l'IA","Rédiger des mails rapides et percutants","Construire son offre vendable avec l'IA","Outils gratuits vs payants","Actualité IA 2026","IA générative — c'est quoi ?","Quiz & jeux IA"],
+  "Infographiste / Créatif":["Créer du contenu avec l'IA","Le prompt — méthode et pratique","Outils par métier","IA générative — c'est quoi ?","Éthique & esprit critique","Actualité IA 2026","Outils gratuits vs payants","Quiz & jeux IA"],
+  "Commercial / Vente":["Rédiger des mails rapides et percutants","Construire son offre vendable avec l'IA","Page LinkedIn pro","Le prompt — méthode et pratique","Créer du contenu avec l'IA","Actualité IA 2026","Outils gratuits vs payants","Quiz & jeux IA"],
+  "Informatique / Tech":["IA générative — c'est quoi ?","Le prompt — méthode et pratique","Outils par métier","Éthique & esprit critique","Actualité IA 2026","Métiers & IA","Histoire & grandes dates","Quiz & jeux IA"],
+  "Juridique / Droit":["Éthique & esprit critique","IA générative — c'est quoi ?","Métiers & IA","Outils par métier","Le prompt — méthode et pratique","Actualité IA 2026","Histoire & grandes dates","Quiz & jeux IA"],
+  "Finance / Comptabilité":["IA générative — c'est quoi ?","Outils par métier","Le prompt — méthode et pratique","Éthique & esprit critique","Métiers & IA","Actualité IA 2026","Rédiger des mails rapides et percutants","Quiz & jeux IA"],
+  "Administration / RH":["Rédiger des mails rapides et percutants","Le prompt — méthode et pratique","IA générative — c'est quoi ?","Outils par métier","Éthique & esprit critique","Actualité IA 2026","Métiers & IA","Quiz & jeux IA"],
+  "Formateur / Coach":["IA générative — c'est quoi ?","Le prompt — méthode et pratique","Créer du contenu avec l'IA","Construire son offre vendable avec l'IA","Éthique & esprit critique","Actualité IA 2026","Quiz & jeux IA","Histoire & grandes dates"],
+  "Santé / Bien-être":["IA générative — c'est quoi ?","Éthique & esprit critique","Outils par métier","Le prompt — méthode et pratique","Actualité IA 2026","Métiers & IA","Outils gratuits vs payants","Quiz & jeux IA"],
+  "Enseignement / Éducation":["Histoire & grandes dates","IA générative — c'est quoi ?","Éthique & esprit critique","Quiz & jeux IA","Le prompt — méthode et pratique","Métiers & IA","Actualité IA 2026","Créer du contenu avec l'IA"],
+  "Communication / Marketing":["Créer du contenu avec l'IA","Page LinkedIn pro","Rédiger des mails rapides et percutants","Le prompt — méthode et pratique","Construire son offre vendable avec l'IA","Actualité IA 2026","Outils gratuits vs payants","Quiz & jeux IA"],
+  "Bâtiment / Artisanat technique":["IA générative — c'est quoi ?","Outils gratuits vs payants","Le prompt — méthode et pratique","Actualité IA 2026","Métiers & IA","Éthique & esprit critique","Rédiger des mails rapides et percutants","Quiz & jeux IA"],
+  "default":["Histoire & grandes dates","IA générative — c'est quoi ?","Éthique & esprit critique","Métiers & IA","Outils par métier","Outils gratuits vs payants","Le prompt — méthode et pratique","Créer du contenu avec l'IA","Rédiger des mails rapides et percutants","Page LinkedIn pro","Construire son offre vendable avec l'IA","Équipe opérationnelle IA","Actualité IA 2026","Quiz & jeux IA"]
 };
-
-const ICONS_THEMES = {"Histoire & grandes dates":"📅","IA générative — c'est quoi ?":"🧠","Éthique & esprit critique":"⚖️","Métiers & IA":"💼","Outils par métier":"🛠️","Outils gratuits vs payants":"💰","Le prompt — méthode et pratique":"✍️","Créer du contenu avec l'IA":"🎨","Rédiger des mails rapides et percutants":"📧","Page LinkedIn pro":"🔗","Construire son offre vendable avec l'IA":"📦","Équipe opérationnelle IA":"🏢","Actualité IA 2026":"📰","Quiz & jeux IA":"🎮"};
-
+const TICO={"Histoire & grandes dates":"📅","IA générative — c'est quoi ?":"🧠","Éthique & esprit critique":"⚖️","Métiers & IA":"💼","Outils par métier":"🛠️","Outils gratuits vs payants":"💰","Le prompt — méthode et pratique":"✍️","Créer du contenu avec l'IA":"🎨","Rédiger des mails rapides et percutants":"📧","Page LinkedIn pro":"🔗","Construire son offre vendable avec l'IA":"📦","Équipe opérationnelle IA":"🏢","Actualité IA 2026":"📰","Quiz & jeux IA":"🎮"};
 const F={formateur:'',organisme:'',statut:'',metier:'',metierA:'',intitule:'',objectif:'',pratique:'',freins:[],attraits:[],contexte:'',themes:[],approche:'',format:'',groupe:'',duree:'',seances:'',horaires:'',lieu:'',materiel:''};
 let cur=0;
 
@@ -461,7 +457,6 @@ function aller(n){
   if(n===5)majRecap();
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
 function majProg(n){
   for(let i=1;i<=5;i++){
     const el=document.getElementById('ps'+i);if(!el)continue;
@@ -472,20 +467,18 @@ function majProg(n){
     else{num.innerHTML=i;}
   }
 }
-
 function sel(btn,grp){
   document.querySelectorAll('#'+grp+' .ob').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
   const v=btn.dataset.v;
   if(grp==='o-statut')F.statut=v;
-  if(grp==='o-metier'){F.metier=v;}
+  if(grp==='o-metier')F.metier=v;
   if(grp==='o-pratique')F.pratique=v;
   if(grp==='o-approche')F.approche=v;
   if(grp==='o-format')F.format=v;
   if(grp==='o-groupe')F.groupe=v;
   if(grp==='o-duree')F.duree=v;
 }
-
 function ms(btn,grp){
   btn.classList.toggle('sel');
   const vals=[...document.querySelectorAll('#'+grp+' .ob.sel')].map(b=>b.dataset.v);
@@ -493,23 +486,18 @@ function ms(btn,grp){
   if(grp==='o-attraits')F.attraits=vals;
   if(grp==='o-themes')F.themes=vals;
 }
-
 function genThemes(){
-  const metier=F.metier||'default';
-  const liste=THEMES_METIER[metier]||THEMES_METIER['default'];
+  const liste=THEMES[F.metier]||THEMES['default'];
   const cont=document.getElementById('o-themes');
-  cont.innerHTML='';
-  F.themes=[];
+  cont.innerHTML='';F.themes=[];
   liste.forEach(t=>{
-    const ic=ICONS_THEMES[t]||'📌';
     const btn=document.createElement('button');
     btn.className='ob';btn.dataset.v=t;
-    btn.innerHTML=`<span class="ic">${ic}</span>${t}`;
+    btn.innerHTML=`<span class="ic">${TICO[t]||'📌'}</span>${t}`;
     btn.onclick=()=>ms(btn,'o-themes');
     cont.appendChild(btn);
   });
 }
-
 function majRecap(){
   F.metierA=document.getElementById('metier-a').value;
   F.intitule=document.getElementById('intitule').value;
@@ -528,47 +516,32 @@ function majRecap(){
     <div class="ri"><div class="rk">Pratique IA</div><div class="rv">${F.pratique||'—'}</div></div>
     <div class="ri"><div class="rk">Format / Durée</div><div class="rv">${F.format||'—'} — ${dl}</div></div>
     <div class="ri"><div class="rk">Groupe</div><div class="rv">${F.groupe||'—'}</div></div>
-    <div class="ri"><div class="rk">Approche choisie</div><div class="rv">${F.approche||'—'}</div></div>
-    <div class="ri"><div class="rk">Thèmes sélectionnés</div><div class="rv">${F.themes.length?F.themes.slice(0,3).join(', ')+(F.themes.length>3?' +'+( F.themes.length-3)+'…':''):'—'}</div></div>
+    <div class="ri"><div class="rk">Approche</div><div class="rv">${F.approche||'—'}</div></div>
+    <div class="ri"><div class="rk">Thèmes</div><div class="rv">${F.themes.length?F.themes.slice(0,3).join(', ')+(F.themes.length>3?' +'+( F.themes.length-3):''):'—'}</div></div>
   `;
 }
-
-function ctx(){
+function ctxBase(){
   const dm=F.duree==='multi'?(F.seances||'plusieurs séances'):F.duree+' minutes';
   const mf=F.metierA||F.metier||'Non précisé';
-  return `FORMATEUR : ${F.formateur} — ${F.organisme}
-INTITULÉ : ${F.intitule||'Non précisé'}
-OBJECTIF OPÉRATIONNEL : ${F.objectif||'Non précisé'}
-STATUT CLIENT : ${F.statut||'?'} | MÉTIER : ${mf}
-PRATIQUE IA : ${F.pratique||'?'}
-FREINS : ${F.freins.join(', ')||'Non précisé'}
-ATTRAITS : ${F.attraits.join(', ')||'Non précisé'}
-CONTEXTE : ${F.contexte||'Aucun'}
-THÉMATIQUES : ${F.themes.join(' | ')||'Non précisé'}
-APPROCHE FORMATEUR : ${F.approche||'?'}
-FORMAT : ${F.format||'?'} | GROUPE : ${F.groupe||'?'} | DURÉE : ${dm}
-HORAIRES : ${F.horaires||'?'} | LIEU : ${F.lieu||'?'} | MATÉRIEL : ${F.materiel||'?'}`;
+  return{dm,mf,ctx:`FORMATEUR : ${F.formateur} — ${F.organisme}
+INTITULÉ : ${F.intitule||'Non précisé'} | OBJECTIF : ${F.objectif||'Non précisé'}
+STATUT : ${F.statut||'?'} | MÉTIER : ${mf} | PRATIQUE IA : ${F.pratique||'?'}
+FREINS : ${F.freins.join(', ')||'Non précisé'} | ATTRAITS : ${F.attraits.join(', ')||'Non précisé'}
+CONTEXTE : ${F.contexte||'Aucun'} | THÉMATIQUES : ${F.themes.join(' | ')||'Non précisé'}
+APPROCHE : ${F.approche||'?'} | FORMAT : ${F.format||'?'} | GROUPE : ${F.groupe||'?'} | DURÉE : ${dm}
+HORAIRES : ${F.horaires||'?'} | LIEU : ${F.lieu||'?'} | MATÉRIEL : ${F.materiel||'?'}`};
 }
-
-function rp(){
-  const mf=F.metierA||F.metier||'Non précisé';
-  return `RÈGLES PÉDAGOGIQUES :
-- Pas de magistral > 10 min | Alternance théorie→pratique→évaluation
-- Max 4 objectifs | Bloom : verbes d'action | Ratio Losada | Droit à l'erreur
-- Andragogie | Adapter au profil : ${F.statut} / ${mf}
-- Intégrer freins (${F.freins.slice(0,3).join(', ')}) dans les séquences
-- Signer : ${F.formateur} — ${F.organisme}`;
-}
+function rp(mf){return`RÈGLES : pas magistral>10min | alternance théorie→pratique→évaluation | max 4 objectifs | Bloom verbes | ratio Losada | droit erreur | andragogie | adapter à ${F.statut}/${mf} | intégrer freins | signer : ${F.formateur} — ${F.organisme}`;}
 
 function buildP(type){
-  const dm=F.duree==='multi'?(F.seances||'plusieurs séances'):F.duree+' minutes';
-  const mf=F.metierA||F.metier||'Non précisé';
-  const base=`Expert ingénierie pédagogique FPA.\n${ctx()}\n${rp()}`;
-  if(type==='spd')return`${base}\n\nGÉNÈRE : SPD COMPLET\nSOMME DURÉES = exactement ${dm} (vérifie avant de finaliser)\nTableau 8 colonnes : Durée|Étape|Contenu détaillé adapté au profil ${F.statut}/${mf}|Méthode pédagogique|Rôle formateur|Rôle apprenant|Outils/Supports|Évaluation\nEn-tête complet + objectifs SMART Bloom (3-4 max) + note vérification durées + signature\nHTML propre, pas de \`\`\`.`;
-  if(type==='guide')return`${base}\n\nGÉNÈRE : GUIDE JOUR J\nDurée totale = ${dm}\nChecklist avant + tableau horodaté minute/minute : Heure|Durée|Formateur fait|Apprenants font|Vigilance|Matériel + signaux alerte + checklist clôture + signature\nHTML propre, pas de \`\`\`.`;
-  if(type==='quiz')return`${base}\n\nGÉNÈRE : QUIZ BLOOM (18 questions min, formats variés, adapté au métier ${mf})\nN1 Mémorisation : 5 flashcards | N2 Compréhension : 3 reformulations | N3 Application : 3 mises en situation ${mf} | N4 Analyse : 2 études de cas | N5 Évaluation : 2 grilles | N6 Création : 1 défi créatif\nSignature ${F.formateur}\nHTML propre, pas de \`\`\`.`;
-  if(type==='kirk')return`${base}\n\nGÉNÈRE : KIRKPATRICK 4 NIVEAUX\nN1 Réaction (à chaud) : 10 questions | N2 Apprentissage : auto-éval avant/après 8 compétences | N3 Transfert (30j) : 6 indicateurs terrain | N4 Résultats : 5 KPI business\nSignature ${F.formateur}\nHTML propre, pas de \`\`\`.`;
-  if(type==='froid')return`${base}\n\nGÉNÈRE : QUESTIONNAIRE À FROID (4-8 semaines après)\n1)Introduction 2)Transfert acquis (5 questions métier ${mf}) 3)Changements pratique (3 questions) 4)Obstacles (3 questions) 5)Besoins complémentaires (2 questions) 6)NPS\nSignature ${F.formateur}\nHTML propre, pas de \`\`\`.`;
+  const {dm,mf,ctx}=ctxBase();
+  const r=rp(mf);
+  const base=`Expert ingénierie pédagogique FPA.\n${ctx}\n${r}`;
+  if(type==='spd')return`${base}\n\nGÉNÈRE SPD COMPLET. SOMME DURÉES = exactement ${dm}.\nTableau 8 colonnes : Durée|Étape|Contenu détaillé adapté ${F.statut}/${mf}|Méthode pédagogique|Rôle formateur|Rôle apprenant|Outils/Supports|Évaluation\nEn-tête + objectifs SMART Bloom 3-4 max + note vérification = ${dm} + signature\nHTML propre, pas de \`\`\`.`;
+  if(type==='guide')return`${base}\n\nGÉNÈRE GUIDE JOUR J. Durée = ${dm}.\nChecklist avant + tableau horodaté min/min : Heure|Durée|Formateur|Apprenants|Vigilance|Matériel + signaux alerte + checklist clôture + signature\nHTML propre, pas de \`\`\`.`;
+  if(type==='quiz')return`${base}\n\nGÉNÈRE QUIZ BLOOM 18 questions min adaptées au métier ${mf}.\nN1:5 flashcards | N2:3 reformulations | N3:3 mises en situation ${mf} | N4:2 études de cas | N5:2 grilles | N6:1 défi créatif\nSignature ${F.formateur}. HTML propre, pas de \`\`\`.`;
+  if(type==='kirk')return`${base}\n\nGÉNÈRE KIRKPATRICK 4 NIVEAUX.\nN1 Réaction:10 questions | N2 Apprentissage:auto-éval avant/après 8 compétences | N3 Transfert 30j:6 indicateurs | N4 Résultats:5 KPI\nSignature ${F.formateur}. HTML propre, pas de \`\`\`.`;
+  if(type==='froid')return`${base}\n\nGÉNÈRE QUESTIONNAIRE À FROID (4-8 semaines après).\n1)Intro 2)Transfert 5 questions métier ${mf} 3)Changements pratique 3 questions 4)Obstacles 3 questions 5)Besoins 2 questions 6)NPS\nSignature ${F.formateur}. HTML propre, pas de \`\`\`.`;
 }
 
 async function callAPI(prompt){
@@ -579,64 +552,42 @@ async function callAPI(prompt){
   return txt.replace(/^```html\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
 }
 
+const TITRES=['spd','guide','quiz','kirk','froid'];
+const LABELS=['📋 Scénario Pédagogique Détaillé','📅 Guide Jour J','🧩 Quiz Bloom','📊 Kirkpatrick 4 niveaux','📬 Questionnaire à froid'];
+
 async function generer(){
   document.getElementById('erzone').style.display='none';
   document.getElementById('ldrzone').style.display='block';
   document.getElementById('btngen').disabled=true;
-  document.getElementById('zres').style.display='none';
-
-  // Réinitialiser les sections
-  ['sec0','sec1','sec2','sec3','sec4'].forEach(id=>{
-    document.getElementById(id).innerHTML='<div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div>';
-    document.getElementById(id).className='section-content';
-  });
-  document.getElementById('sec0').classList.add('visible');
-
-  const types=['spd','guide','quiz','kirk','froid'];
-  const steps=['ls1','ls2','ls3','ls4','ls5'];
-
+  // Réinitialiser sections
+  for(let i=0;i<5;i++){
+    document.getElementById('sec'+i).innerHTML=`<div class="section-titre">${LABELS[i]}</div><div class="sec-loading"><div class="mini-sp"></div>En attente…</div>`;
+  }
   document.getElementById('zres').style.display='block';
   document.getElementById('rmeta').textContent=(F.intitule||'Formation')+' • '+F.formateur+' • '+new Date().toLocaleDateString('fr-FR');
   document.getElementById('zres').scrollIntoView({behavior:'smooth'});
   majProg(5);
 
-  let ok=true;
-  for(let i=0;i<types.length;i++){
-    document.getElementById(steps[i]).classList.add('on');
+  for(let i=0;i<5;i++){
+    document.getElementById('ls'+(i+1)).classList.add('on');
+    document.getElementById('sec'+i).innerHTML=`<div class="section-titre">${LABELS[i]}</div><div class="sec-loading"><div class="mini-sp"></div>Génération en cours…</div>`;
     try{
-      const html=await callAPI(buildP(types[i]));
-      document.getElementById('sec'+i).innerHTML=html;
+      const html=await callAPI(buildP(TITRES[i]));
+      document.getElementById('sec'+i).innerHTML=`<div class="section-titre">${LABELS[i]}</div>${html}`;
     }catch(e){
-      document.getElementById('sec'+i).innerHTML=`<div style="padding:20px;color:#B83232">Erreur lors de la génération : ${e.message}</div>`;
-      ok=false;
+      document.getElementById('sec'+i).innerHTML=`<div class="section-titre">${LABELS[i]}</div><div style="padding:20px;color:#B83232">Erreur : ${e.message}</div>`;
     }
   }
-
   document.getElementById('ldrzone').style.display='none';
   document.getElementById('btngen').disabled=false;
-  if(!ok){
-    document.getElementById('erzone').textContent='⚠️ Certains documents n\'ont pas pu être générés. Vérifiez votre connexion.';
-    document.getElementById('erzone').style.display='block';
-  }
-}
-
-function showSec(idx,btn){
-  document.querySelectorAll('.section-content').forEach(s=>s.classList.remove('visible'));
-  document.getElementById('sec'+idx).classList.add('visible');
-  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
 }
 
 function copier(){
-  const visible=document.querySelector('.section-content.visible');
-  if(visible){
-    navigator.clipboard.writeText(visible.innerText).then(()=>{
-      const b=document.querySelector('.bco');b.textContent='✓ Copié!';
-      setTimeout(()=>b.textContent='📋 Copier section',2000);
-    });
-  }
+  navigator.clipboard.writeText(document.getElementById('doc-contenu').innerText).then(()=>{
+    const b=document.querySelector('.bco');b.textContent='✓ Copié!';
+    setTimeout(()=>b.textContent='📋 Copier tout',2000);
+  });
 }
-
 function nouveau(){document.getElementById('zres').style.display='none';aller(1);}
 </script>
 </body>
