@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: declic-ia-assistant-spd
-    runtime: python
-    buildCommand: ""
-    startCommand: python server.py
-    envVars:
-      - key: ANTHROPIC_API_KEY
-        sync: false
