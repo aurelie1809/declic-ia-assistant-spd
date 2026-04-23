@@ -1,5 +1,5 @@
 """
-Déclic IA — Proxy sécurisé pour l'assistant SPD
+Déclic IA — Proxy sécurisé pour l'assistant SPD Pro
 La clé API Anthropic reste côté serveur, jamais exposée au navigateur.
 """
 
@@ -73,7 +73,7 @@ class Handler(BaseHTTPRequestHandler):
 
         safe_payload = {
             "model":      "claude-haiku-4-5-20251001",
-            "max_tokens": 4000,
+            "max_tokens": 8000,
             "messages":   payload.get("messages", []),
         }
 
@@ -90,7 +90,7 @@ class Handler(BaseHTTPRequestHandler):
         )
 
         try:
-            with urllib.request.urlopen(req, timeout=120) as resp:
+            with urllib.request.urlopen(req, timeout=180) as resp:
                 result = resp.read()
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
